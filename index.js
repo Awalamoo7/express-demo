@@ -24,10 +24,7 @@ app.post ('/api/courses', (req,res) => {
     };
     const result = Joi.validate(req.body, schema);
 
-    if (result.error) {
-        res.status(400).send (result.error.details[0].message);
-        return;
-    }
+    if (result.error) return res.status(400).send (result.error.details[0].message);
     const course = {
         id: courses.length + 1,
         name : req.params.name
@@ -45,10 +42,7 @@ app.put ('/api/courses/:id', (req, res) => {
     };
     const result = Joi.validate(req.body, schema);
 
-    if (result.error) {
-        res.status(400).send (result.error.details[0].message);
-        return;
-    }
+    if (result.error) return res.status(400).send (result.error.details[0].message);
 
     course.name = req.body.name;
 
@@ -58,7 +52,7 @@ app.put ('/api/courses/:id', (req, res) => {
 
 app.get ('/api/courses/:id', (req, res) => {
     let course = courses.find (c => c.id === parseInt (req.params.id));
-    if (!course) res.status (404).send ('The course with the Given ID was not found')
+    if (!course) return res.status (404).send ('The course with the Given ID was not found')
     res.send (course)
 })
 
